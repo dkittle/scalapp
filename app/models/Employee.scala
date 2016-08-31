@@ -17,6 +17,6 @@ case class Employee(
 object Employee extends JsonUtils {
 
   implicit def createEmployee(json: String): Employee = fromJson[Employee](json)
-  implicit def writeEmployee(employee: Employee): String = toJson(employee)
+//  implicit def writeEmployee(employee: Employee): String = toJson(employee)
 
 }

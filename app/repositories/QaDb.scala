@@ -7,7 +7,7 @@ import io.getquill.{JdbcContext, MySQLDialect, PluralizedTableNames, SnakeCase}
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 
-trait QaDao {
+trait QaDb {
 
   lazy val qadb = new JdbcContext[MySQLDialect, SnakeCase with PluralizedTableNames]("qadb")
 
