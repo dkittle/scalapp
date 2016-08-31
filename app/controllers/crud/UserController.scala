@@ -10,7 +10,7 @@ class UserController extends Controller with JsonUtils {
 
   def list(offset: Int, count: Int) = Action { implicit rs =>
     val users = userDao.list(offset, count)
-    Ok(toJson(users))
+    Ok(toJson(users)).as(JsonType)
   }
 
 }

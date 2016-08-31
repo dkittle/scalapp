@@ -12,6 +12,8 @@ import com.fasterxml.jackson.module.scala.experimental.ScalaObjectMapper
 
 trait JsonUtils {
 
+  val JsonType = "application/json"
+
   val mapper = new ObjectMapper() with ScalaObjectMapper
   mapper.registerModule(DefaultScalaModule)
   val javaTime = new JavaTimeModule
