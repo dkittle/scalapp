@@ -8,7 +8,7 @@ scalaVersion := "2.11.7"
 
 libraryDependencies ++= Seq( jdbc , cache , ws   ,
   "mysql" % "mysql-connector-java" % "5.1.38",
-  "io.getquill" %% "quill-jdbc" % "0.8.0",
+  "io.getquill" %% "quill-jdbc" % "0.9.0",
   "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.8.2",
   "com.fasterxml.jackson.datatype" % "jackson-datatype-jsr310" % "2.8.2",
   "org.scalatest" % "scalatest_2.11" % "3.0.0" % "test",

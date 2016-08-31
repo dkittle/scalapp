@@ -5,7 +5,7 @@ import java.time.LocalDateTime
 import utils.JsonUtils
 
 case class Employee(
-                     id: Long,
+                     id: Option[Long],
                      name: String,
                      address: String,
                      dateOfBirth: LocalDateTime,

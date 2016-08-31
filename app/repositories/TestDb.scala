@@ -7,7 +7,7 @@ import io.getquill._
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 
-trait BaseDao {
+trait TestDb {
 
   lazy val ctx = new JdbcContext[MySQLDialect, SnakeCase]("ctx")
 
@@ -21,10 +21,9 @@ trait BaseDao {
     }
 
   implicit val dateTimeEncoder: Encoder[DateTime] =
-    encoder[DateTime] {
-      row => (idx, dateTime) =>
-        row.setObject(idx, dateTime.toDate, java.sql.Types.TIMESTAMP)
-    }
+    encoder[DateTime](row => (idx, dateTime) =>
+      row.setObject(idx, dateTime.toDate, java.sql.Types.TIMESTAMP),
+      java.sql.Types.TIMESTAMP)
 
   implicit val optionLocalDateTimeDecoder: Decoder[Option[LocalDateTime]] =
     decoder[Option[LocalDateTime]] {
@@ -37,13 +36,13 @@ trait BaseDao {
     }
 
   implicit val optionLocalDateTimeEncoder: Encoder[Option[LocalDateTime]] =
-    encoder[Option[LocalDateTime]] {
-      row => (idx, dateTime) =>
-        dateTime match {
-          case Some(_) => row.setObject (idx, java.util.Date.from(dateTime.get.toInstant (ZoneOffset.UTC) ), java.sql.Types.TIMESTAMP)
-          case _ => row.setObject(idx, None)
-        }
-    }
+    encoder[Option[LocalDateTime]](row => (idx, dateTime) =>
+      dateTime match {
+        case Some(_) => row.setObject(idx, java.util.Date.from(dateTime.get.toInstant(ZoneOffset.UTC)), java.sql.Types.TIMESTAMP)
+        case _ => row.setObject(idx, None)
+      }
+      ,java.sql.Types.TIMESTAMP
+    )
 
   implicit val localDateTimeDecoder: Decoder[LocalDateTime] =
     decoder[LocalDateTime] {
@@ -53,8 +52,7 @@ trait BaseDao {
     }
 
   implicit val localDateTimeEncoder: Encoder[LocalDateTime] =
-    encoder[LocalDateTime] {
-      row => (idx, dateTime) =>
-        row.setObject(idx, java.util.Date.from(dateTime.toInstant(ZoneOffset.UTC)), java.sql.Types.TIMESTAMP)
-    }
+    encoder[LocalDateTime](row => (idx, dateTime) =>
+      row.setObject(idx, java.util.Date.from(dateTime.toInstant(ZoneOffset.UTC)), java.sql.Types.TIMESTAMP),
+      java.sql.Types.TIMESTAMP)
 }

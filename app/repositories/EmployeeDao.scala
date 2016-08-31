@@ -2,24 +2,18 @@ package repositories
 
 import models.Employee
 
-class EmployeeDao extends BaseDao {
+class EmployeeDao extends TestDb {
 
   import ctx._
 
-  val saveEmployees = quote(query[Employee].schema(_.generated(_.id)).insert)
   val employeeQuery = quote(query[Employee])
 
-  def count =
-    ctx.run(employeeQuery.size)
+  def count = ctx.run(employeeQuery.size)
 
-  def save(employee: Employee) =
-    ctx.run(saveEmployees)(List(employee))
+  def save(employee: Employee) = ctx.run(quote(query[Employee].insert(lift(employee)).returning(_.id)))
 
-  def save(employees: List[Employee]) =
-    ctx.run(saveEmployees)(employees)
+  def list(offset: Int, count: Int) = ctx.run(employeeQuery.drop(lift(offset)).take(lift(count)))
 
-  def list() = ctx.run(employeeQuery)
-
-  def findById(id: Long) = ctx.run(employeeQuery).filter(_.id == id).head
+  def findById(id: Long) = ctx.run(employeeQuery.filter(_.id == lift(id)))
 
 }

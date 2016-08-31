@@ -15,11 +15,11 @@ class Application extends Controller with JsonUtils {
   val dao = new EmployeeDao()
 
   def index = Action {
-    Ok(toJson(dao.list()))
+    Ok(toJson(dao.list(0,10)))
   }
 
   def list = Action { implicit rs =>
-    val employees = dao.list()
+    val employees = dao.list(0,10)
     Ok(toJson(employees))
   }
 
